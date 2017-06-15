@@ -6,8 +6,8 @@ import './NoteForm.css'
 class NoteForm extends Component {
     constructor(props) {
         super(props)
-       this.state = {
-           note: this.blankNote()
+        this.state = {
+           note: this.blankNote(),
        }
     }
 
@@ -22,14 +22,14 @@ class NoteForm extends Component {
     handleChanges = (ev) => {
         const note = {...this.state.note}
         note[ev.target.name] = ev.target.value
-        this.setState({ note }, ()=> this.props.saveNote(this.state.note)
+        this.setState({ note }, () => this.props.saveNote(this.state.note)
         )
         //console.log(ev.target.name)
         
     }//write methods with arrow function much more future
 
     handleSubmit = (ev) => {
-        ev.preventDefault
+        ev.preventDefault()
         this.setState({ note: this.blankNote() })
 
     }
