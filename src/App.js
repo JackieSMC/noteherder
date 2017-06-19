@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from 'react'
+import './App.css'
 import Main from './Main'
 import SignIn from './SignIn'
 import SignOut from './SignOut'
-import base from './base'
+import base, { auth } from './base'
 
 
 class App extends Component {
