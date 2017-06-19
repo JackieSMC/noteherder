@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import Main from './Main'
+import SignIn from './SignIn'
+import SignOut from './SignOut'
+import base from './base'
 
 
 class App extends Component {
@@ -9,8 +12,30 @@ class App extends Component {
 
     this.state = {
       notes: {},
+      uid: null,
   }
 }
+
+componentWillMount() {
+  base.syncState(
+    'notes',
+    {
+      context: this, 
+      state: 'notes',
+    }
+  )
+}
+
+  signedIn = () => {
+    return this.state.uid
+  }
+
+  authHandler = (user) => {
+    this.setState({ uid: user.uid })
+  }
+  signOut = () => {
+    this.setState({ uid: null })
+  }
 
   saveNote = (note) => {
     if (!note.id) {
@@ -21,12 +46,19 @@ class App extends Component {
 
       this.setState({ notes })
   }
+  renderMain = () => {
+    return (
+    <div>
+      <SignOut signOut={this.signOut} />
+      <Main notes={this.state.notes} saveNote={this.saveNote} />
+    </div>
+    )
+  }
 
   render() {
     return (
       <div className="App">
-
-        <Main notes={this.state.notes} saveNote={this.saveNote} />
+        {this.signedIn() ? this.renderMain(): <SignIn authHandler={this.authHandler} /> }
         
       </div>
     );
