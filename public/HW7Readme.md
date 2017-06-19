@@ -16,3 +16,9 @@
  
  * Make a working _delete_ button.
  * When you click on a note in the list, populate the form with the data from that note.
+
+
+ ## Setup
+ 
+ Copy `base.example.js` to `base.js` and add the appropriate configuration for your Firebase application.
+ 
