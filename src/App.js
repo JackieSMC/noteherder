@@ -17,8 +17,12 @@ class App extends Component {
 }
 
 componentWillMount() {
+
+}
+
+syncNotes = () => {
   base.syncState(
-    'notes',
+    `${this.state.uid}/notes`,
     {
       context: this, 
       state: 'notes',
@@ -31,10 +35,14 @@ componentWillMount() {
   }
 
   authHandler = (user) => {
-    this.setState({ uid: user.uid })
+    this.setState(
+      { uid: user.uid },
+      this.syncNotes
+
+    )
   }
   signOut = () => {
-    this.setState({ uid: null })
+    auth.signOut().then(this.setState({ uid: null }))
   }
 
   saveNote = (note) => {

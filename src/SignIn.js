@@ -1,10 +1,11 @@
 import React from 'react' 
 import './Signin.css'
+import { auth, githubProvider } from './base' 
 
 const SignIn = ({ authHandler }) => {
     const authenticate = () => {
-        authHandler ({
-            uid: 'dstrus',
+        auth.signInWithPopup(githubProvider).then((data) => {
+            authHandler(data.user)
         })
     }
 
