@@ -63,6 +63,7 @@ syncNotes = () => {
   saveNote = (note) => {
     if (!note.id) {
       note.id = `note-${Date.now()}`
+      this.setCurrentNoteId(note.id)
     }
     const notes = {...this.state.notes} //not part of JS standard
     notes[note.id] = note
@@ -86,10 +87,16 @@ syncNotes = () => {
       removeNote: this.removeNote,
       setCurrentNoteId: this.setCurrentNoteId,
     }
+
+    const noteData = {
+      notes: this.state.notes,
+      currentNoteId: this.state.currentNoteId, 
+    }
+
     return (
     <div>
       <SignOut signOut={this.signOut} />
-      <Main notes={this.state.notes} {...actions} />
+      <Main {...noteData} {...actions} />
     </div>
     )
   }
