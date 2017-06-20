@@ -17,7 +17,15 @@ class App extends Component {
 }
 
 componentWillMount() {
-
+  auth.onAuthStateChanged(
+    (user) => {
+      if (user) {
+        this.authHandler(user)
+      } else {
+        this.setState({ uid: null })
+      }
+    }
+  )
 }
 
 syncNotes = () => {
@@ -42,7 +50,7 @@ syncNotes = () => {
     )
   }
   signOut = () => {
-    auth.signOut().then(this.setState({ uid: null }))
+    auth.signOut()
   }
 
   saveNote = (note) => {
@@ -66,7 +74,7 @@ syncNotes = () => {
   render() {
     return (
       <div className="App">
-        {this.signedIn() ? this.renderMain(): <SignIn authHandler={this.authHandler} /> }
+        {this.signedIn() ? this.renderMain(): <SignIn /> }
         
       </div>
     );
