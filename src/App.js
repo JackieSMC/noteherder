@@ -13,6 +13,7 @@ class App extends Component {
     this.state = {
       notes: {},
       uid: null,
+      currentNoteId: null,
   }
 }
 
@@ -75,10 +76,15 @@ syncNotes = () => {
     this.setState({ notes })
 
   }
+
+  setCurrentNoteId = (noteId) => {
+    this.setState({ currentNoteId: noteId })
+  }
   renderMain = () => {
     const actions = {
       saveNote: this.saveNote,
       removeNote: this.removeNote,
+      setCurrentNoteId: this.setCurrentNoteId,
     }
     return (
     <div>
