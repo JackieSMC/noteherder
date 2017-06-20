@@ -67,8 +67,7 @@ syncNotes = () => {
     }
     const notes = {...this.state.notes} //not part of JS standard
     notes[note.id] = note
-
-      this.setState({ notes })
+    this.setState({ notes })
   }
 
   removeNote = (note) => {
