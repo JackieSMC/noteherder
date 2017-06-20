@@ -33,6 +33,10 @@ class NoteForm extends Component {
         this.setState({ note: this.blankNote() })
 
     }
+    
+    handleRemove = (ev) => {
+        this.props.removeNote(this.state.note)
+    }
 
     render() {
         return (
@@ -55,6 +59,9 @@ class NoteForm extends Component {
                     value={this.state.note.body}></textarea>
                 </p>
                 <button type="submit">Save and New</button>
+                <button onClick={this.handleRemove}>
+                    <i className="fa fa-trash-o"></i>
+                </button>
             </form>
         </div>
         )
