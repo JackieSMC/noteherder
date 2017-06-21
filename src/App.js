@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './App.css'
 import Main from './Main'
 import SignIn from './SignIn'
-import SignOut from './SignOut'
+
 import base, { auth } from './base'
 
 
@@ -13,7 +13,7 @@ class App extends Component {
     this.state = {
       notes: {},
       uid: null,
-      currentNoteId: null,
+      currentNote: this.blankNote(),
   }
 }
 
@@ -31,13 +31,39 @@ componentWillMount() {
 
 syncNotes = () => {
   this.ref= base.syncState(
-    `${this.state.uid}/notes`,
+    `notes/${this.state.uid}`,
     {
       context: this, 
       state: 'notes',
     }
   )
 }
+blankNote = () => {
+  return {
+    id: null,
+    title: '',
+    body:'',
+
+  }
+}
+
+  saveNote = (note) => {
+    if (!note.id) {
+      note.id = `note-${Date.now()}`
+
+    }
+    const notes = {...this.state.notes} //not part of JS standard
+    notes[note.id] = note
+    this.setState({ notes, currentNote: note, })
+  }
+  
+  removeNote = (note) => {
+    const notes = {...this.state.notes}
+    notes[note.id] = null
+    this.resetCurrentNote()
+    this.setState({ notes },)
+
+  }
 
   signedIn = () => {
     return this.state.uid
@@ -55,46 +81,35 @@ syncNotes = () => {
     auth.signOut().then(
       () => {
         base.removeBinding(this.ref)
-        this.setState({ notes:{} })
+        this.setState({ 
+          notes:{}, 
+          currentNote: this.blankNote() })
       }
-      )
+    )
+  }
+  setCurrentNote = (note) => {
+    this.setState({ currentNote: note })
+  }
+  resetCurrentNote = () => {
+    this.setCurrentNote(this.blankNote())
   }
 
-  saveNote = (note) => {
-    if (!note.id) {
-      note.id = `note-${Date.now()}`
-      this.setCurrentNoteId(note.id)
-    }
-    const notes = {...this.state.notes} //not part of JS standard
-    notes[note.id] = note
-    this.setState({ notes })
-  }
-
-  removeNote = (note) => {
-    const notes = {...this.state.notes}
-    notes[note.id] = null
-    this.setState({ notes })
-
-  }
-
-  setCurrentNoteId = (noteId) => {
-    this.setState({ currentNoteId: noteId })
-  }
   renderMain = () => {
     const actions = {
       saveNote: this.saveNote,
       removeNote: this.removeNote,
-      setCurrentNoteId: this.setCurrentNoteId,
+      setCurrentNote: this.setCurrentNote,
+      resetCurrentNote: this.resetCurrentNote,
+      signOut: this.signOut,
     }
 
     const noteData = {
       notes: this.state.notes,
-      currentNoteId: this.state.currentNoteId, 
+      currentNote: this.state.currentNote, 
     }
 
     return (
     <div>
-      <SignOut signOut={this.signOut} />
       <Main {...noteData} {...actions} />
     </div>
     )
@@ -106,7 +121,7 @@ syncNotes = () => {
         {this.signedIn() ? this.renderMain(): <SignIn /> }
         
       </div>
-    );
+    )
   }
 }
 
