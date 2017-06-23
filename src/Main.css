@@ -1,4 +1,10 @@
+html {  
+  background-color: #000000;
+  background-image: none;
+}
+
 .Main {
   display: flex;
   height: 100vh; /*viewpoint height*/
-  align-items: stretch; }
+  align-items: stretch; 
+  }

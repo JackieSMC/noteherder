@@ -137,7 +137,7 @@ blankNote = () => {
             <Route path="/sign-in" render={() => (
               !this.signedIn() ? <SignIn /> : <Redirect to="/notes" />
             )} />
-            <Route render={() => <Redirect to="/notes"/> } />
+            <Route render={() => <Redirect to="/sign-in"/> } />
         </Switch>
         {/*{this.signedIn() ? this.renderMain(): <SignIn /> }*/}
         
